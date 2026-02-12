@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 fun WellnessTasksList(
     list: List<WellnessTask>,
     onCloseTask: (WellnessTask) -> Unit,
+    onCheckedTask: (Int, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -16,7 +17,11 @@ fun WellnessTasksList(
             items = list,
             key = { task -> task.id }
         ) { task ->
-            WellnessTaskItem(taskName = task.label, onClose = { onCloseTask(task) })
+            WellnessTaskItem(
+                task = task,
+                onClose = { onCloseTask(task) },
+                onCheckedChange = { checked -> onCheckedTask(task.id, checked) }
+            )
         }
     }
 }

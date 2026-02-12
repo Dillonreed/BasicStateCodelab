@@ -9,10 +9,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,33 +16,20 @@ import androidx.compose.ui.unit.dp
 import com.example.basicstatecodelab.ui.theme.BasicStateCodelabTheme
 
 @Composable
-fun WellnessTaskItem(taskName: String, onClose: () -> Unit, modifier: Modifier = Modifier) {
-    var checkedState by rememberSaveable { mutableStateOf(false) }
-    WellnessTaskItem(
-        taskName = taskName,
-        checked = checkedState,
-        onCheckedChange = { isChecked -> checkedState = isChecked },
-        onClose = onClose,
-        modifier = modifier,
-    )
-}
-
-@Composable
 fun WellnessTaskItem(
-    taskName: String,
-    checked: Boolean,
+    task: WellnessTask,
     onCheckedChange: (Boolean) -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         Text(
-            text = taskName, modifier = Modifier
+            text = task.label, modifier = Modifier
                 .padding(start = 16.dp)
                 .weight(1F)
         )
         Checkbox(
-            checked = checked,
+            checked = task.checked,
             onCheckedChange = onCheckedChange
         )
         IconButton(onClick = onClose, modifier = Modifier) {
@@ -63,8 +46,11 @@ fun WellnessTaskItem(
 fun WellnessTaskItemPreview() {
     BasicStateCodelabTheme {
         WellnessTaskItem(
-            taskName = "This is a task", onClose = {},
-            checked = false,
+            task = WellnessTask(
+                id = 0,
+                label = "This is a task"
+            ),
+            onClose = {},
             onCheckedChange = { }
         )
     }
